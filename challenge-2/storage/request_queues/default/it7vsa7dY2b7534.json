@@ -1,6 +1,6 @@
 {
 	"id": "it7vsa7dY2b7534",
-	"json": "{\"id\":\"it7vsa7dY2b7534\",\"url\":\"https://www.ycombinator.com/companies/second\",\"loadedUrl\":\"https://www.ycombinator.com/companies/second\",\"uniqueKey\":\"https://www.ycombinator.com/companies/second\",\"method\":\"GET\",\"noRetry\":false,\"retryCount\":0,\"errorMessages\":[],\"headers\":{},\"userData\":{\"__crawlee\":{\"state\":4}},\"handledAt\":\"2024-04-02T13:44:18.602Z\"}",
+	"json": "{\"id\":\"it7vsa7dY2b7534\",\"url\":\"https://www.ycombinator.com/companies/second\",\"loadedUrl\":\"https://www.ycombinator.com/companies/second\",\"uniqueKey\":\"https://www.ycombinator.com/companies/second\",\"method\":\"GET\",\"noRetry\":false,\"retryCount\":0,\"errorMessages\":[],\"headers\":{},\"userData\":{\"__crawlee\":{\"state\":4}},\"handledAt\":\"2024-04-02T19:31:16.858Z\"}",
 	"method": "GET",
 	"orderNo": null,
 	"retryCount": 0,

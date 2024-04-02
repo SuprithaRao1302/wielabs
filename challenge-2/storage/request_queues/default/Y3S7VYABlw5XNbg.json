@@ -1,6 +1,6 @@
 {
 	"id": "Y3S7VYABlw5XNbg",
-	"json": "{\"id\":\"Y3S7VYABlw5XNbg\",\"url\":\"https://www.ycombinator.com/companies/slingshot-2\",\"loadedUrl\":\"https://www.ycombinator.com/companies/lavalamp\",\"uniqueKey\":\"https://www.ycombinator.com/companies/slingshot-2\",\"method\":\"GET\",\"noRetry\":false,\"retryCount\":0,\"errorMessages\":[],\"headers\":{},\"userData\":{\"__crawlee\":{\"state\":4}},\"handledAt\":\"2024-04-02T13:39:54.110Z\"}",
+	"json": "{\"id\":\"Y3S7VYABlw5XNbg\",\"url\":\"https://www.ycombinator.com/companies/slingshot-2\",\"loadedUrl\":\"https://www.ycombinator.com/companies/lavalamp\",\"uniqueKey\":\"https://www.ycombinator.com/companies/slingshot-2\",\"method\":\"GET\",\"noRetry\":false,\"retryCount\":0,\"errorMessages\":[],\"headers\":{},\"userData\":{\"__crawlee\":{\"state\":4}},\"handledAt\":\"2024-04-02T19:26:55.924Z\"}",
 	"method": "GET",
 	"orderNo": null,
 	"retryCount": 0,

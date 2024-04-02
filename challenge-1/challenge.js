@@ -37,6 +37,15 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.processDataDump = void 0;
+/*
+Here's the pseudocode i followed to complete this challenge
+Download the .tar.gz file using Node.js's Streams API and save it to the tmp/ folder.
+Decompress the GZIP part of the file and extract the TAR archive, saving the resulting folder in tmp/.
+Set up a SQLite database at out/database.sqlite using knex.
+Read the two CSVs in the extracted folder using a streaming API.
+Add each row to the SQL database. For efficiency, add about 100 rows at a time using a batch insert.
+Ensure that the SQL tables have a unique, auto-incrementing primary key column called id and that all columns are non-nullable.
+*/
 var fs = require("fs");
 var path = require("path");
 var https = require("https");
@@ -45,13 +54,45 @@ var tar = require("tar");
 var csv = require("fast-csv");
 var knex_1 = require("knex");
 var resources_1 = require("./resources");
+/**
+ * Downloads a file from the specified URL and saves it to the destination path.
+ *
+ * @param url - The URL of the file to download.
+ * @param destination - The path where the downloaded file should be saved.
+ * @returns A Promise that resolves when the file is successfully downloaded and saved, or rejects with an error if there was a problem.
+ */
 function downloadFile(url, destination) {
     return __awaiter(this, void 0, void 0, function () {
         return __generator(this, function (_a) {
+            console.log('downloading file function...');
+            /// Create a stream to write data to the file on disk
             return [2 /*return*/, new Promise(function (resolve, reject) {
                     var file = fs.createWriteStream(destination);
+                    var downloadedBytes = 0;
+                    /**
+                     * Makes a GET request to the specified URL using HTTPS and downloads the response to a file.
+                     * @param {string} url - The URL to make the GET request to.
+                     * @param {http.IncomingMessage} response - The response object from the GET request.
+                     * @returns None
+                     */
                     https.get(url, function (response) {
+                        var totalBytes = Number(response.headers['content-length']);
+                        response.on('data', function (chunk) {
+                            downloadedBytes += chunk.length;
+                            var percentage = ((downloadedBytes / totalBytes) * 100).toFixed(2);
+                            /**
+                             * Logs a message indicating the percentage of a download completed.
+                             * @param {number} percentage - The percentage of the download completed.
+                             * @returns None
+                             */
+                            console.log("Downloaded: ".concat(percentage, "%"));
+                        });
                         response.pipe(file);
+                        /**
+                         * Event listener for the 'finish' event of a file stream.
+                         * Closes the file and resolves the promise.
+                         * @returns None
+                         */
                         file.on('finish', function () {
                             file.close();
                             resolve();
@@ -64,6 +105,13 @@ function downloadFile(url, destination) {
         });
     });
 }
+/**
+ * Extracts the contents of an archive file to a specified destination.
+ *
+ * @param archivePath - The path to the archive file.
+ * @param destination - The destination directory where the contents of the archive will be extracted.
+ * @returns A Promise that resolves when the extraction is complete, or rejects with an error.
+ */
 function extractArchive(archivePath, destination) {
     return __awaiter(this, void 0, void 0, function () {
         return __generator(this, function (_a) {
@@ -78,23 +126,47 @@ function extractArchive(archivePath, destination) {
         });
     });
 }
+/**
+ * Parses a CSV file and returns an array of objects of type T.
+ *
+ * @param filePath The path to the CSV file.
+ * @returns A promise that resolves to an array of objects of type T.
+ */
 function parseCSV(filePath) {
     return __awaiter(this, void 0, void 0, function () {
         return __generator(this, function (_a) {
             return [2 /*return*/, new Promise(function (resolve, reject) {
                     var data = [];
+                    var indices = new Set();
+                    /**
+                     * Reads a CSV file from the specified file path, parses it with headers, and processes each row of data.
+                     * If a duplicate index is found, it logs an error message.
+                     * @param {string} filePath - The path to the CSV file to be read.
+                     * @returns None
+                     */
                     fs.createReadStream(filePath)
                         .pipe(csv.parse({ headers: true }))
                         .on('error', reject)
                         .on('data', function (row) {
-                        row.Index = Number(row.Index);
-                        data.push(row);
+                        var index = Number(row.Index);
+                        if (indices.has(index)) {
+                            console.error("Duplicate index found: ".concat(index));
+                        }
+                        else {
+                            indices.add(index);
+                            row.Index = index;
+                            data.push(row);
+                        }
                     })
                         .on('end', function () { return resolve(data); });
                 })];
         });
     });
 }
+/**
+ * Initializes the database and creates necessary tables if they don't exist.
+ * @returns A Promise that resolves to a Knex instance representing the database connection.
+ */
 function initializeDatabase() {
     return __awaiter(this, void 0, void 0, function () {
         var db;
@@ -108,6 +180,7 @@ function initializeDatabase() {
                         },
                         useNullAsDefault: true
                     });
+                    /// Create table queries for customers and organizations
                     return [4 /*yield*/, db.schema.createTableIfNotExists('customers', function (table) {
                             table.integer('Index').notNullable().primary();
                             table.string('Customer Id').notNullable();
@@ -121,9 +194,9 @@ function initializeDatabase() {
                             table.string('Email').notNullable();
                             table.datetime('Subscription Date').notNullable();
                             table.string('Website').notNullable();
-                            // Define other columns as needed
                         })];
                 case 1:
+                    /// Create table queries for customers and organizations
                     _a.sent();
                     return [4 /*yield*/, db.schema.createTableIfNotExists('organizations', function (table) {
                             table.integer('Index').primary();
@@ -135,7 +208,6 @@ function initializeDatabase() {
                             table.string('Founded').notNullable();
                             table.string('Industry').notNullable();
                             table.integer('Number of employees').notNullable();
-                            // Define other columns as needed
                         })];
                 case 2:
                     _a.sent();
@@ -144,9 +216,17 @@ function initializeDatabase() {
         });
     });
 }
+/**
+ * Inserts data into a database table in batches.
+ *
+ * @param db - The Knex instance representing the database connection.
+ * @param tableName - The name of the table where the data will be inserted.
+ * @param data - An array of data to be inserted into the table.
+ * @returns A Promise that resolves when the data has been inserted successfully.
+ */
 function insertDataToDatabase(db, tableName, data) {
     return __awaiter(this, void 0, void 0, function () {
-        var batchSize, i;
+        var batchSize, i, error_1;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -154,19 +234,31 @@ function insertDataToDatabase(db, tableName, data) {
                     i = 0;
                     _a.label = 1;
                 case 1:
-                    if (!(i < data.length)) return [3 /*break*/, 4];
-                    return [4 /*yield*/, db(tableName).insert(data.slice(i, i + batchSize))];
+                    if (!(i < data.length)) return [3 /*break*/, 6];
+                    _a.label = 2;
                 case 2:
-                    _a.sent();
-                    _a.label = 3;
+                    _a.trys.push([2, 4, , 5]);
+                    return [4 /*yield*/, db(tableName).insert(data.slice(i, i + batchSize))];
                 case 3:
+                    _a.sent();
+                    return [3 /*break*/, 5];
+                case 4:
+                    error_1 = _a.sent();
+                    console.log("🚀 ~ error:", error_1);
+                    return [3 /*break*/, 5];
+                case 5:
                     i += batchSize;
                     return [3 /*break*/, 1];
-                case 4: return [2 /*return*/];
+                case 6: return [2 /*return*/];
             }
         });
     });
 }
+/**
+ * Downloads a file, extracts an archive, initializes a database, clears tables,
+ * parses and inserts data into the database.
+ * @returns A Promise that resolves when the process is completed successfully.
+ */
 function processDataDump() {
     return __awaiter(this, void 0, void 0, function () {
         var tmpDir, archivePath, extractionPath, db, customers, organizations;
@@ -177,23 +269,28 @@ function processDataDump() {
                     archivePath = path.join(tmpDir, 'dump.tar.gz');
                     extractionPath = path.join(tmpDir, 'extracted');
                     // Step 1: Download the file
-                    console.log('Downloading the filed...');
-                    return [4 /*yield*/, downloadFile('https://fiber-challenges.s3.amazonaws.com/dump.tar.gz', archivePath)];
-                case 1:
-                    _a.sent();
+                    console.log('Downloading the file...');
+                    // await downloadFile('https://fiber-challenges.s3.amazonaws.com/dump.tar.gz', archivePath);
                     console.log('Download completed.');
                     // Step 2: Extract the archive
                     console.log('Extracting the archive...');
-                    return [4 /*yield*/, extractArchive(archivePath, extractionPath)];
-                case 2:
-                    _a.sent();
+                    // await extractArchive(archivePath, extractionPath);
                     console.log('Extraction completed.');
                     // Step 3: Initialize the database
                     console.log('Initializing the database...');
                     return [4 /*yield*/, initializeDatabase()];
-                case 3:
+                case 1:
                     db = _a.sent();
                     console.log('Database initialized.');
+                    //  Clear tables if at all any data exists in them
+                    console.log('Clearing tables...');
+                    return [4 /*yield*/, db('customers').truncate()];
+                case 2:
+                    _a.sent();
+                    return [4 /*yield*/, db('organizations').truncate()];
+                case 3:
+                    _a.sent();
+                    console.log('Tables cleared.');
                     // Step 4: Parse and insert data into the database
                     console.log('Parsing and inserting data into the database...');
                     return [4 /*yield*/, parseCSV(path.join(extractionPath, 'dump', 'customers.csv'))];

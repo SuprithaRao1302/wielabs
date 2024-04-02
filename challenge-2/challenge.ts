@@ -1,5 +1,46 @@
+
+/*
+Here's the pseudocode i followed to complete this challenge
+Parse the given list of company names and URLs from inputs/companies.csv using a CSV parsing library like fast-csv or papaparse.
+For each company, use the CheerioCrawler from the crawlee library to scrape the company's YC profile page.
+Use cheerio to parse the HTML of the page and extract key information about the company into a TypeScript interface.
+If a company's "Launch" post is available, visit that URL and scrape it as well, extracting the information into another TypeScript interface.
+Combine all the information about each company into a single interface.
+Write the resulting array of objects (one object per company) to out/scraped.json.
+*/
+
+/*
+There is this error coming up whenever we try to run the code for the first time:
+🚀 ~ scrapeCompanyInfo ~ url: https://www.ycombinator.com/companies/fiber-ai
+INFO  CheerioCrawler: Initializing the crawler.
+INFO  CheerioCrawler: Initializing the crawler.
+ERROR CheerioCrawler:AutoscaledPool: isTaskReadyFunction failed
+  Error: ENOENT: no such file or directory, open 'D:\Supritha rao drive\react files\wielabs\Supritha_MVSR\challenge\challenge-2\storage\request_queues\default\0CVZxv2Webj1gEj.json'
+ERROR CheerioCrawler:AutoscaledPool: isTaskReadyFunction failed
+  Error: ENOENT: no such file or directory, open 'D:\Supritha rao drive\react files\wielabs\Supritha_MVSR\challenge\challenge-2\storage\request_queues\default\0CVZxv2Webj1gEj.json'
+[Error: ENOENT: no such file or directory, open 'D:\Supritha rao drive\react files\wielabs\Supritha_MVSR\challenge\challenge-2\storage\request_queues\default\0CVZxv2Webj1gEj.json'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'D:\\Supritha rao drive\\react files\\wielabs\\Supritha_MVSR\\challenge\\challenge-2\\storage\\request_queues\\default\\0CVZxv2Webj1gEj.json'
+}
+Waiting for the debugger to disconnect...
+node:internal/process/promises:288
+            triggerUncaughtException(err, true /* fromPromise */;
+            
+/*
+[Error: ENOENT: no such file or directory, open 'D:\Supritha rao drive\react files\wielabs\Supritha_MVSR\challenge\challenge-2\storage\request_queues\default\0CVZxv2Webj1gEj.json'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'D:\\Supritha rao drive\\react files\\wielabs\\Supritha_MVSR\\challenge\\challenge-2\\storage\\request_queues\\default\\0CVZxv2Webj1gEj.json'
+}
+
+Node.js v18.20.0
+I have tried my best in researching about it and trying to solve but failed, i couldn't find any solution for this error.so please run it again and then observe the output
+*/
 import fs from 'fs/promises';
-import cheerio from 'cheerio';
+import * as cheerio from 'cheerio';
 import { CheerioCrawler, CheerioCrawlerOptions } from 'crawlee'; // Import the CheerioCrawler class from the correct package
 import axios from 'axios';
 import Papa from 'papaparse';
@@ -21,7 +62,6 @@ interface Company {
     founders: Founder[];
     launchPosts?: LaunchPost[];
     newsPosts: NewsPost[];
-    // Add more fields as needed
 }
 
 interface Job {
@@ -31,7 +71,6 @@ interface Job {
     equity: string;
     experience: string;
     applyAt: string;
-    // Add more fields as needed
 }
 
 interface Founder {
@@ -40,7 +79,6 @@ interface Founder {
     image?: string;
     description?: string;
     twitter?: string;
-    // Add more fields as needed
 }
 
 interface LaunchPost {
@@ -51,16 +89,19 @@ interface LaunchPost {
     date: string;
     tags: string[];
     url: string;
-    // Add more fields as needed
 }
 
 interface NewsPost {
     title: string;
     link: string;
     date: string;
-    // Add more fields as needed
 }
 
+/**
+ * Processes the list of companies by reading from a CSV file, scraping company information,
+ * and writing the scraped information to a JSON file.
+ * @returns A Promise that resolves when the processing is complete.
+ */
 export async function processCompanyList(): Promise<void> {
     // Read the list of companies from the CSV file
     console.log('Reading company list from CSV file...');
@@ -83,7 +124,13 @@ export async function processCompanyList(): Promise<void> {
     console.log('Scraping completed successfully!');
 }
 
+/**
+ * Parses a CSV string and returns an array of objects containing the name and URL.
+ * @param csvData - The CSV data to parse.
+ * @returns An array of objects with the name and URL extracted from the CSV data.
+ */
 function parseCsv(csvData: string): { name: string; url: string }[] {
+    // Use the PapaParse library to parse the CSV data
     const parsedData = Papa.parse(csvData, {
         delimiter: ",", // Set the delimiter to comma
         quoteChar: '"', // Specify the quote character
@@ -96,6 +143,13 @@ function parseCsv(csvData: string): { name: string; url: string }[] {
     });
 }
 
+/**
+ * Scrapes company information from a given URL.
+ * 
+ * @param name - The name of the company.
+ * @param url - The URL of the company's website.
+ * @returns A Promise that resolves to a Company object containing the scraped information.
+ */
 async function scrapeCompanyInfo(name: string, url: string): Promise<Company> {
     console.log("🚀 ~ scrapeCompanyInfo ~ url:", url)
     const company: Company = {
@@ -114,7 +168,7 @@ async function scrapeCompanyInfo(name: string, url: string): Promise<Company> {
         logo: '',
         newsPosts: []
     };
-
+// Create a new instance of the CheerioCrawler class with the appropriate configuration
     const crawler = new CheerioCrawler({
         minConcurrency: 10,
         maxConcurrency: 50,
@@ -144,6 +198,7 @@ async function scrapeCompanyInfo(name: string, url: string): Promise<Company> {
             company.facebook = $('a.inline-block w-5 h-5 bg-contain bg-image-facebook').attr('href') ?? '';
             company.website = $('a[href^="http"]').attr('href') ?? '';
             company.description = $('p.whitespace-pre-line').text().trim();
+            // Scrape job listings
             $('div.flex.w-full.flex-col.justify-between.divide-y.divide-gray-200 > div.flex.w-full.flex-row.justify-between.py-4').each((index, element) => {
                 const jobTitle = $(element).find('div.ycdc-with-link-color.pr-4.text-lg.font-bold > a').text().trim();
                 const jobDetails = $(element).find('div.justify-left.flex.flex-row.gap-x-7 > div').map((i, el) => $(el).text().trim()).get();
@@ -180,6 +235,7 @@ async function scrapeCompanyInfo(name: string, url: string): Promise<Company> {
 
                 company.jobs.push(job);
             });
+            // Scrape founders information
             $('div.flex.flex-row.flex-col.items-start.gap-3.md\\:flex-row').each((index, element) => {
                 const name = $(element).find('h3.text-lg.font-bold').text().trim();
                 const description = $(element).find('p.prose.max-w-full.whitespace-pre-line').text().trim();
@@ -197,8 +253,8 @@ async function scrapeCompanyInfo(name: string, url: string): Promise<Company> {
 
                 company.founders.push(founder);
             });
+            // Scrape launch posts
             const launchPostElements = $('div.prose.max-w-full a.ycdc-with-link-color').toArray();
-            console.log("🚀 ~ handlePageFunction: ~ launchPostElements:", launchPostElements)
             for (const element of launchPostElements) {
                 const launchInfo = await scrapeLaunchInfo(element.attribs.href);
                 if (launchInfo) {
@@ -208,7 +264,7 @@ async function scrapeCompanyInfo(name: string, url: string): Promise<Company> {
                     company.launchPosts.push(launchInfo);
                 }
             }
-
+            // Scrape news posts
             $('#news div.ycdc-with-link-color').each((index, element) => {
                 const link = $(element).find('a').attr('href') ?? '';
                 const title = $(element).find('a').text().trim();
@@ -219,12 +275,21 @@ async function scrapeCompanyInfo(name: string, url: string): Promise<Company> {
     });
 
     await crawler.run([url]); // Use the run method from the CheerioCrawler class
-    console.log('one company scraped successfully!')
+    console.log(name,' scraped successfully!')
     return company;
 }
+/**
+ * Scrapes launch information from a given URL and returns a `LaunchPost` object.
+ * @param anchorTagUrl - The URL of the anchor tag to scrape launch information from.
+ * @returns A promise that resolves to a `LaunchPost` object if the scraping is successful, or `null` if there was an error.
+ */
 async function scrapeLaunchInfo(anchorTagUrl: string): Promise<LaunchPost | null> {
-    console.log("🚀 ~ scrapeLaunchInfo ~ anchorTagUrl:", anchorTagUrl)
     try {
+        /**
+         * Fetches data from two URLs, parses the HTML content using Cheerio, and extracts
+         * information such as title, author image, author name, tagline, and date.
+         * @returns None
+         */
         const response = await axios.get('https://www.ycombinator.com/launches');
         const $ = cheerio.load(response.data);
         const launchPage = await axios.get(`https://www.ycombinator.com${anchorTagUrl}`);
@@ -235,6 +300,7 @@ async function scrapeLaunchInfo(anchorTagUrl: string): Promise<LaunchPost | null
         const authorName = $launch('div.flex div b').text().trim();
         const tagline = $launch('p.tagline').text().trim();
         const date = $launch('time.timeago').attr('title') ?? '';
+        // Extract hashtags from the launch post
         $launch('div.row.hashtags span').each((index, element) => {
             const hashtag = $(element).text();
             hashtags.push(hashtag);
