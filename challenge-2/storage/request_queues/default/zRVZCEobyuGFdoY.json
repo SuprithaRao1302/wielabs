@@ -1,0 +1,9 @@
+{
+	"id": "zRVZCEobyuGFdoY",
+	"json": "{\"id\":\"zRVZCEobyuGFdoY\",\"url\":\"https://www.ycombinator.com/companies/nanograb\\r\",\"loadedUrl\":\"https://www.ycombinator.com/companies/nanograb\",\"uniqueKey\":\"https://www.ycombinator.com/companies/nanograb\",\"method\":\"GET\",\"noRetry\":false,\"retryCount\":0,\"errorMessages\":[],\"headers\":{},\"userData\":{\"__crawlee\":{\"state\":4}},\"handledAt\":\"2024-04-02T10:35:14.219Z\"}",
+	"method": "GET",
+	"orderNo": null,
+	"retryCount": 0,
+	"uniqueKey": "https://www.ycombinator.com/companies/nanograb",
+	"url": "https://www.ycombinator.com/companies/nanograb\r"
+}

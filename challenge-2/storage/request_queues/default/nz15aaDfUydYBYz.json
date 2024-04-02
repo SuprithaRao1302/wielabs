@@ -1,0 +1,9 @@
+{
+	"id": "nz15aaDfUydYBYz",
+	"json": "{\"id\":\"nz15aaDfUydYBYz\",\"url\":\"https://www.ycombinator.com/companies/long-term-stock-exchange\\r\",\"loadedUrl\":\"https://www.ycombinator.com/companies/long-term-stock-exchange\",\"uniqueKey\":\"https://www.ycombinator.com/companies/long-term-stock-exchange\",\"method\":\"GET\",\"noRetry\":false,\"retryCount\":0,\"errorMessages\":[],\"headers\":{},\"userData\":{\"__crawlee\":{\"state\":4}},\"handledAt\":\"2024-04-02T10:40:23.139Z\"}",
+	"method": "GET",
+	"orderNo": null,
+	"retryCount": 0,
+	"uniqueKey": "https://www.ycombinator.com/companies/long-term-stock-exchange",
+	"url": "https://www.ycombinator.com/companies/long-term-stock-exchange\r"
+}

@@ -1,0 +1,9 @@
+{
+	"id": "aBuGXmMyIlyoA6j",
+	"json": "{\"id\":\"aBuGXmMyIlyoA6j\",\"url\":\"https://www.ycombinator.com/companies/airbnb\\r\",\"loadedUrl\":\"https://www.ycombinator.com/companies/airbnb\",\"uniqueKey\":\"https://www.ycombinator.com/companies/airbnb\",\"method\":\"GET\",\"noRetry\":false,\"retryCount\":0,\"errorMessages\":[],\"headers\":{},\"userData\":{\"__crawlee\":{\"state\":4}},\"handledAt\":\"2024-04-02T10:39:01.232Z\"}",
+	"method": "GET",
+	"orderNo": null,
+	"retryCount": 0,
+	"uniqueKey": "https://www.ycombinator.com/companies/airbnb",
+	"url": "https://www.ycombinator.com/companies/airbnb\r"
+}

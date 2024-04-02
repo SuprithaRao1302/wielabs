@@ -1,0 +1,9 @@
+{
+	"id": "ZDkudPNfVKIXftE",
+	"json": "{\"id\":\"ZDkudPNfVKIXftE\",\"url\":\"https://www.ycombinator.com/companies/vaultpay\\r\",\"loadedUrl\":\"https://www.ycombinator.com/companies/vaultpay\",\"uniqueKey\":\"https://www.ycombinator.com/companies/vaultpay\",\"method\":\"GET\",\"noRetry\":false,\"retryCount\":1,\"errorMessages\":[\"Error: Detected a session error, rotating session... \\nread ECONNRESET\\n\\n    at CheerioCrawler._requestFunction (D:\\\\Supritha rao drive\\\\react files\\\\wielabs\\\\Supritha_MVSR\\\\challenge\\\\node_modules\\\\@crawlee\\\\src\\\\internals\\\\http-crawler.ts:621:23)\\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)\\n    at wrap (D:\\\\Supritha rao drive\\\\react files\\\\wielabs\\\\Supritha_MVSR\\\\challenge\\\\node_modules\\\\@apify\\\\src\\\\index.ts:77:27)\"],\"headers\":{},\"userData\":{\"__crawlee\":{\"state\":4,\"sessionRotationCount\":1}},\"handledAt\":\"2024-04-02T10:35:57.397Z\"}",
+	"method": "GET",
+	"orderNo": null,
+	"retryCount": 1,
+	"uniqueKey": "https://www.ycombinator.com/companies/vaultpay",
+	"url": "https://www.ycombinator.com/companies/vaultpay\r"
+}

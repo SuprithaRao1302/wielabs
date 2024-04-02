@@ -1,0 +1,9 @@
+{
+	"id": "C8BrcTheYuHcH9t",
+	"json": "{\"id\":\"C8BrcTheYuHcH9t\",\"url\":\"https://www.ycombinator.com/companies/supabase\\r\",\"loadedUrl\":\"https://www.ycombinator.com/companies/supabase\",\"uniqueKey\":\"https://www.ycombinator.com/companies/supabase\",\"method\":\"GET\",\"noRetry\":false,\"retryCount\":0,\"errorMessages\":[],\"headers\":{},\"userData\":{\"__crawlee\":{\"state\":4}},\"handledAt\":\"2024-04-02T10:38:03.895Z\"}",
+	"method": "GET",
+	"orderNo": null,
+	"retryCount": 0,
+	"uniqueKey": "https://www.ycombinator.com/companies/supabase",
+	"url": "https://www.ycombinator.com/companies/supabase\r"
+}
