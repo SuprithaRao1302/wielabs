@@ -1,9 +1,9 @@
 {
 	"id": "BTAyIIE6Duieh3L",
-	"json": "{\"id\":\"BTAyIIE6Duieh3L\",\"url\":\"https://www.ycombinator.com/companies/metaphor\\r\",\"loadedUrl\":\"https://www.ycombinator.com/companies/exa\",\"uniqueKey\":\"https://www.ycombinator.com/companies/metaphor\",\"method\":\"GET\",\"noRetry\":false,\"retryCount\":0,\"errorMessages\":[],\"headers\":{},\"userData\":{\"__crawlee\":{\"state\":4}},\"handledAt\":\"2024-04-02T10:37:52.820Z\"}",
+	"json": "{\"id\":\"BTAyIIE6Duieh3L\",\"url\":\"https://www.ycombinator.com/companies/metaphor\",\"loadedUrl\":\"https://www.ycombinator.com/companies/exa\",\"uniqueKey\":\"https://www.ycombinator.com/companies/metaphor\",\"method\":\"GET\",\"noRetry\":false,\"retryCount\":0,\"errorMessages\":[],\"headers\":{},\"userData\":{\"__crawlee\":{\"state\":4}},\"handledAt\":\"2024-04-02T13:41:28.837Z\"}",
 	"method": "GET",
 	"orderNo": null,
 	"retryCount": 0,
 	"uniqueKey": "https://www.ycombinator.com/companies/metaphor",
-	"url": "https://www.ycombinator.com/companies/metaphor\r"
+	"url": "https://www.ycombinator.com/companies/metaphor"
 }

@@ -86,7 +86,10 @@ function parseCSV(filePath) {
                     fs.createReadStream(filePath)
                         .pipe(csv.parse({ headers: true }))
                         .on('error', reject)
-                        .on('data', function (row) { return data.push(row); })
+                        .on('data', function (row) {
+                        row.Index = Number(row.Index);
+                        data.push(row);
+                    })
                         .on('end', function () { return resolve(data); });
                 })];
         });
@@ -106,7 +109,7 @@ function initializeDatabase() {
                         useNullAsDefault: true
                     });
                     return [4 /*yield*/, db.schema.createTableIfNotExists('customers', function (table) {
-                            table.increments('Index').primary();
+                            table.integer('Index').notNullable().primary();
                             table.string('Customer Id').notNullable();
                             table.string('First Name').notNullable();
                             table.string('Last Name').notNullable();
@@ -123,7 +126,7 @@ function initializeDatabase() {
                 case 1:
                     _a.sent();
                     return [4 /*yield*/, db.schema.createTableIfNotExists('organizations', function (table) {
-                            table.increments('Index').primary();
+                            table.integer('Index').primary();
                             table.integer('Organization Id').notNullable();
                             table.string('Name').notNullable();
                             table.string('Website').notNullable();
@@ -175,36 +178,40 @@ function processDataDump() {
                     extractionPath = path.join(tmpDir, 'extracted');
                     // Step 1: Download the file
                     console.log('Downloading the filed...');
-                    // await downloadFile('https://fiber-challenges.s3.amazonaws.com/dump.tar.gz', archivePath);
+                    return [4 /*yield*/, downloadFile('https://fiber-challenges.s3.amazonaws.com/dump.tar.gz', archivePath)];
+                case 1:
+                    _a.sent();
                     console.log('Download completed.');
                     // Step 2: Extract the archive
                     console.log('Extracting the archive...');
-                    // await extractArchive(archivePath, extractionPath);
+                    return [4 /*yield*/, extractArchive(archivePath, extractionPath)];
+                case 2:
+                    _a.sent();
                     console.log('Extraction completed.');
                     // Step 3: Initialize the database
                     console.log('Initializing the database...');
                     return [4 /*yield*/, initializeDatabase()];
-                case 1:
+                case 3:
                     db = _a.sent();
                     console.log('Database initialized.');
                     // Step 4: Parse and insert data into the database
                     console.log('Parsing and inserting data into the database...');
                     return [4 /*yield*/, parseCSV(path.join(extractionPath, 'dump', 'customers.csv'))];
-                case 2:
+                case 4:
                     customers = _a.sent();
                     return [4 /*yield*/, parseCSV(path.join(extractionPath, 'dump', 'organizations.csv'))];
-                case 3:
+                case 5:
                     organizations = _a.sent();
                     return [4 /*yield*/, insertDataToDatabase(db, 'customers', customers)];
-                case 4:
+                case 6:
                     _a.sent();
                     return [4 /*yield*/, insertDataToDatabase(db, 'organizations', organizations)];
-                case 5:
+                case 7:
                     _a.sent();
                     console.log('Data insertion completed.');
                     // Close the database connection
                     return [4 /*yield*/, db.destroy()];
-                case 6:
+                case 8:
                     // Close the database connection
                     _a.sent();
                     console.log('Process completed successfully.');

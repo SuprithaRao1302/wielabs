@@ -1,9 +1,9 @@
 {
 	"id": "o86XIW3qoEFS1Qq",
-	"json": "{\"id\":\"o86XIW3qoEFS1Qq\",\"url\":\"https://www.ycombinator.com/companies/unstatiq\\r\",\"loadedUrl\":\"https://www.ycombinator.com/companies/unstatiq\",\"uniqueKey\":\"https://www.ycombinator.com/companies/unstatiq\",\"method\":\"GET\",\"noRetry\":false,\"retryCount\":0,\"errorMessages\":[],\"headers\":{},\"userData\":{\"__crawlee\":{\"state\":4}},\"handledAt\":\"2024-04-02T10:41:18.785Z\"}",
+	"json": "{\"id\":\"o86XIW3qoEFS1Qq\",\"url\":\"https://www.ycombinator.com/companies/unstatiq\",\"loadedUrl\":\"https://www.ycombinator.com/companies/unstatiq\",\"uniqueKey\":\"https://www.ycombinator.com/companies/unstatiq\",\"method\":\"GET\",\"noRetry\":false,\"retryCount\":0,\"errorMessages\":[],\"headers\":{},\"userData\":{\"__crawlee\":{\"state\":4}},\"handledAt\":\"2024-04-02T13:44:42.213Z\"}",
 	"method": "GET",
 	"orderNo": null,
 	"retryCount": 0,
 	"uniqueKey": "https://www.ycombinator.com/companies/unstatiq",
-	"url": "https://www.ycombinator.com/companies/unstatiq\r"
+	"url": "https://www.ycombinator.com/companies/unstatiq"
 }

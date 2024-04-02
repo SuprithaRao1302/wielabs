@@ -84,11 +84,15 @@ export async function processCompanyList(): Promise<void> {
 }
 
 function parseCsv(csvData: string): { name: string; url: string }[] {
-    const lines = csvData.trim().split('\n');
-    const dataLines = lines.slice(1); // Skip the header row
-    return dataLines.map(line => {
-        const [name, url] = line.split(',');
-        return { name, url };
+    const parsedData = Papa.parse(csvData, {
+        delimiter: ",", // Set the delimiter to comma
+        quoteChar: '"', // Specify the quote character
+        header: true, // Indicates that the first row is the header
+        skipEmptyLines: true, // Skip empty lines
+    });
+
+    return parsedData.data.map((row: any) => {
+        return { name: row['Company Name'], url: row['YC URL'] };
     });
 }
 
@@ -121,9 +125,11 @@ async function scrapeCompanyInfo(name: string, url: string): Promise<Company> {
         // Increase the timeout for processing of each page.
         requestHandlerTimeoutSecs: 30,
 
-        // Limit to 100 requests per one crawl
-        maxRequestsPerCrawl: 100,// Adjust concurrency as needed to avoid being banned
-        handlePageFunction: async ({ request, response, $ }) => {
+        // Remove the limit on the number of requests per crawl
+        // or increase it to a larger number if you know how many companies you have.
+        maxRequestsPerCrawl: 200,
+        requestHandler: async ({ request, response, $ }) => {
+
             // Extract relevant information from the company's page using Cheerio selectors
             // Example:
             company.companyName = $('h1.font-extralight').text().trim();
@@ -131,9 +137,12 @@ async function scrapeCompanyInfo(name: string, url: string): Promise<Company> {
             company.founded = $('div.flex.flex-row.justify-between span:contains("Founded:")').next().text().trim();
             company.teamSize = $('div.flex.flex-row.justify-between span:contains("Team Size:")').next().text().trim();
             company.location = $('div.flex.flex-row.justify-between span:contains("Location:")').next().text().trim();
-            company.logo = $('img.hidden.max-w-[200px].sm\\:block').attr('src')??'';
-            company.linkedin = $('a.inline-block.w-5.h-5.bg-contain.bg-image-linkedin').attr('href')??'';
-            company.website = $('a[href^="http"]').attr('href')??'';
+            company.logo = $('img.h-full.w-full').attr('src') ?? '';
+            company.linkedin = $('a.inline-block.w-5.h-5.bg-contain.bg-image-linkedin').attr('href') ?? '';
+            company.twitter = $('a.inline-block w-5 h-5 bg-contain bg-image-twitter').attr('href') ?? '';
+            company.github = $('a.inline-block w-5 h-5 bg-contain bg-image-github').attr('href') ?? '';
+            company.facebook = $('a.inline-block w-5 h-5 bg-contain bg-image-facebook').attr('href') ?? '';
+            company.website = $('a[href^="http"]').attr('href') ?? '';
             company.description = $('p.whitespace-pre-line').text().trim();
             $('div.flex.w-full.flex-col.justify-between.divide-y.divide-gray-200 > div.flex.w-full.flex-row.justify-between.py-4').each((index, element) => {
                 const jobTitle = $(element).find('div.ycdc-with-link-color.pr-4.text-lg.font-bold > a').text().trim();
@@ -214,6 +223,7 @@ async function scrapeCompanyInfo(name: string, url: string): Promise<Company> {
     return company;
 }
 async function scrapeLaunchInfo(anchorTagUrl: string): Promise<LaunchPost | null> {
+    console.log("🚀 ~ scrapeLaunchInfo ~ anchorTagUrl:", anchorTagUrl)
     try {
         const response = await axios.get('https://www.ycombinator.com/launches');
         const $ = cheerio.load(response.data);
@@ -222,9 +232,9 @@ async function scrapeLaunchInfo(anchorTagUrl: string): Promise<LaunchPost | null
         const hashtags: string[] = [];
         const title = $launch('div.row.space-between.align-start.width-100 h1').text().trim();
         const authorImage = $launch('div.user-image.background-image').attr('style') ?? '';
-        const authorName = authorImage?.match(/avatars\/([^"]+)/)?.[1] ?? '';
+        const authorName = $launch('div.flex div b').text().trim();
         const tagline = $launch('p.tagline').text().trim();
-        const date = $launch('time.timeago').text().trim();
+        const date = $launch('time.timeago').attr('title') ?? '';
         $launch('div.row.hashtags span').each((index, element) => {
             const hashtag = $(element).text();
             hashtags.push(hashtag);

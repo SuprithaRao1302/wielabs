@@ -69,7 +69,10 @@ async function parseCSV<T>(filePath: string): Promise<T[]> {
         fs.createReadStream(filePath)
             .pipe(csv.parse({ headers: true }))
             .on('error', reject)
-            .on('data', row => data.push(row))
+            .on('data', row => {
+                row.Index = Number(row.Index);
+                data.push(row);
+            })
             .on('end', () => resolve(data));
     });
 }
@@ -84,7 +87,7 @@ async function initializeDatabase(): Promise<Knex<any, unknown[]>> {
     });
 
     await db.schema.createTableIfNotExists('customers', table => {
-        table.increments('Index').primary();
+        table.integer('Index').notNullable().primary();
         table.string('Customer Id').notNullable();
         table.string('First Name').notNullable();
         table.string('Last Name').notNullable();
@@ -100,7 +103,7 @@ async function initializeDatabase(): Promise<Knex<any, unknown[]>> {
     });
 
     await db.schema.createTableIfNotExists('organizations', table => {
-        table.increments('Index').primary();
+        table.integer('Index').primary();
         table.integer('Organization Id').notNullable();
         table.string('Name').notNullable();
         table.string('Website').notNullable();
@@ -127,7 +130,7 @@ export async function processDataDump(): Promise<void> {
     const archivePath = path.join(tmpDir, 'dump.tar.gz');
     const extractionPath = path.join(tmpDir, 'extracted');
     // Step 1: Download the file
-    console.log('Downloading the filed...');
+    console.log('Downloading the file...');
     await downloadFile('https://fiber-challenges.s3.amazonaws.com/dump.tar.gz', archivePath);
     console.log('Download completed.');
 

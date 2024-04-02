@@ -1,9 +1,9 @@
 {
 	"id": "frIl1JZImGiMQXN",
-	"json": "{\"id\":\"frIl1JZImGiMQXN\",\"url\":\"https://www.ycombinator.com/companies/yumdots\\r\",\"loadedUrl\":\"https://www.ycombinator.com/companies/yumdots\",\"uniqueKey\":\"https://www.ycombinator.com/companies/yumdots\",\"method\":\"GET\",\"noRetry\":false,\"retryCount\":0,\"errorMessages\":[],\"headers\":{},\"userData\":{\"__crawlee\":{\"state\":4}},\"handledAt\":\"2024-04-02T10:38:48.720Z\"}",
+	"json": "{\"id\":\"frIl1JZImGiMQXN\",\"url\":\"https://www.ycombinator.com/companies/yumdots\",\"loadedUrl\":\"https://www.ycombinator.com/companies/yumdots\",\"uniqueKey\":\"https://www.ycombinator.com/companies/yumdots\",\"method\":\"GET\",\"noRetry\":false,\"retryCount\":0,\"errorMessages\":[],\"headers\":{},\"userData\":{\"__crawlee\":{\"state\":4}},\"handledAt\":\"2024-04-02T13:42:23.691Z\"}",
 	"method": "GET",
 	"orderNo": null,
 	"retryCount": 0,
 	"uniqueKey": "https://www.ycombinator.com/companies/yumdots",
-	"url": "https://www.ycombinator.com/companies/yumdots\r"
+	"url": "https://www.ycombinator.com/companies/yumdots"
 }

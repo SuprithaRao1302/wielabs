@@ -1,9 +1,9 @@
 {
 	"id": "PlV8LEiJ9GvtHhp",
-	"json": "{\"id\":\"PlV8LEiJ9GvtHhp\",\"url\":\"https://www.ycombinator.com/companies/heroku\\r\",\"loadedUrl\":\"https://www.ycombinator.com/companies/heroku\",\"uniqueKey\":\"https://www.ycombinator.com/companies/heroku\",\"method\":\"GET\",\"noRetry\":false,\"retryCount\":0,\"errorMessages\":[],\"headers\":{},\"userData\":{\"__crawlee\":{\"state\":4}},\"handledAt\":\"2024-04-02T10:39:13.183Z\"}",
+	"json": "{\"id\":\"PlV8LEiJ9GvtHhp\",\"url\":\"https://www.ycombinator.com/companies/heroku\",\"loadedUrl\":\"https://www.ycombinator.com/companies/heroku\",\"uniqueKey\":\"https://www.ycombinator.com/companies/heroku\",\"method\":\"GET\",\"noRetry\":false,\"retryCount\":0,\"errorMessages\":[],\"headers\":{},\"userData\":{\"__crawlee\":{\"state\":4}},\"handledAt\":\"2024-04-02T13:42:45.642Z\"}",
 	"method": "GET",
 	"orderNo": null,
 	"retryCount": 0,
 	"uniqueKey": "https://www.ycombinator.com/companies/heroku",
-	"url": "https://www.ycombinator.com/companies/heroku\r"
+	"url": "https://www.ycombinator.com/companies/heroku"
 }

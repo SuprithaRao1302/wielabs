@@ -1,9 +1,9 @@
 {
 	"id": "abi9XhNU2OMSaQT",
-	"json": "{\"id\":\"abi9XhNU2OMSaQT\",\"url\":\"https://www.ycombinator.com/companies/echodio\\r\",\"loadedUrl\":\"https://www.ycombinator.com/companies/echodio\",\"uniqueKey\":\"https://www.ycombinator.com/companies/echodio\",\"method\":\"GET\",\"noRetry\":false,\"retryCount\":0,\"errorMessages\":[],\"headers\":{},\"userData\":{\"__crawlee\":{\"state\":4}},\"handledAt\":\"2024-04-02T10:38:37.464Z\"}",
+	"json": "{\"id\":\"abi9XhNU2OMSaQT\",\"url\":\"https://www.ycombinator.com/companies/echodio\",\"loadedUrl\":\"https://www.ycombinator.com/companies/echodio\",\"uniqueKey\":\"https://www.ycombinator.com/companies/echodio\",\"method\":\"GET\",\"noRetry\":false,\"retryCount\":0,\"errorMessages\":[],\"headers\":{},\"userData\":{\"__crawlee\":{\"state\":4}},\"handledAt\":\"2024-04-02T13:42:12.717Z\"}",
 	"method": "GET",
 	"orderNo": null,
 	"retryCount": 0,
 	"uniqueKey": "https://www.ycombinator.com/companies/echodio",
-	"url": "https://www.ycombinator.com/companies/echodio\r"
+	"url": "https://www.ycombinator.com/companies/echodio"
 }

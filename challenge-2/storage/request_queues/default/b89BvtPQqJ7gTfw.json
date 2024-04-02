@@ -1,9 +1,9 @@
 {
 	"id": "b89BvtPQqJ7gTfw",
-	"json": "{\"id\":\"b89BvtPQqJ7gTfw\",\"url\":\"https://www.ycombinator.com/companies/vectorshift\\r\",\"loadedUrl\":\"https://www.ycombinator.com/companies/vectorshift\",\"uniqueKey\":\"https://www.ycombinator.com/companies/vectorshift\",\"method\":\"GET\",\"noRetry\":false,\"retryCount\":0,\"errorMessages\":[],\"headers\":{},\"userData\":{\"__crawlee\":{\"state\":4}},\"handledAt\":\"2024-04-02T10:35:41.628Z\"}",
+	"json": "{\"id\":\"b89BvtPQqJ7gTfw\",\"url\":\"https://www.ycombinator.com/companies/vectorshift\",\"loadedUrl\":\"https://www.ycombinator.com/companies/vectorshift\",\"uniqueKey\":\"https://www.ycombinator.com/companies/vectorshift\",\"method\":\"GET\",\"noRetry\":false,\"retryCount\":0,\"errorMessages\":[],\"headers\":{},\"userData\":{\"__crawlee\":{\"state\":4}},\"handledAt\":\"2024-04-02T13:39:28.937Z\"}",
 	"method": "GET",
 	"orderNo": null,
 	"retryCount": 0,
 	"uniqueKey": "https://www.ycombinator.com/companies/vectorshift",
-	"url": "https://www.ycombinator.com/companies/vectorshift\r"
+	"url": "https://www.ycombinator.com/companies/vectorshift"
 }

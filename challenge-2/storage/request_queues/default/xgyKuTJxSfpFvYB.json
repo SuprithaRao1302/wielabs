@@ -1,9 +1,9 @@
 {
 	"id": "xgyKuTJxSfpFvYB",
-	"json": "{\"id\":\"xgyKuTJxSfpFvYB\",\"url\":\"https://www.ycombinator.com/companies/fiber-ai\\r\",\"loadedUrl\":\"https://www.ycombinator.com/companies/fiber-ai\",\"uniqueKey\":\"https://www.ycombinator.com/companies/fiber-ai\",\"method\":\"GET\",\"noRetry\":false,\"retryCount\":0,\"errorMessages\":[],\"headers\":{},\"userData\":{\"__crawlee\":{\"state\":4}},\"handledAt\":\"2024-04-02T10:34:46.231Z\"}",
+	"json": "{\"id\":\"xgyKuTJxSfpFvYB\",\"url\":\"https://www.ycombinator.com/companies/fiber-ai\",\"loadedUrl\":\"https://www.ycombinator.com/companies/fiber-ai\",\"uniqueKey\":\"https://www.ycombinator.com/companies/fiber-ai\",\"method\":\"GET\",\"noRetry\":false,\"retryCount\":0,\"errorMessages\":[],\"headers\":{},\"userData\":{\"__crawlee\":{\"state\":4}},\"handledAt\":\"2024-04-02T13:38:32.587Z\"}",
 	"method": "GET",
 	"orderNo": null,
 	"retryCount": 0,
 	"uniqueKey": "https://www.ycombinator.com/companies/fiber-ai",
-	"url": "https://www.ycombinator.com/companies/fiber-ai\r"
+	"url": "https://www.ycombinator.com/companies/fiber-ai"
 }
