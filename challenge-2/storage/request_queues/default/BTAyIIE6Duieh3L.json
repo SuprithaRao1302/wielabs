@@ -1,6 +1,6 @@
 {
 	"id": "BTAyIIE6Duieh3L",
-	"json": "{\"id\":\"BTAyIIE6Duieh3L\",\"url\":\"https://www.ycombinator.com/companies/metaphor\",\"loadedUrl\":\"https://www.ycombinator.com/companies/exa\",\"uniqueKey\":\"https://www.ycombinator.com/companies/metaphor\",\"method\":\"GET\",\"noRetry\":false,\"retryCount\":0,\"errorMessages\":[],\"headers\":{},\"userData\":{\"__crawlee\":{\"state\":4}},\"handledAt\":\"2024-04-02T19:28:28.698Z\"}",
+	"json": "{\"id\":\"BTAyIIE6Duieh3L\",\"url\":\"https://www.ycombinator.com/companies/metaphor\",\"loadedUrl\":\"https://www.ycombinator.com/companies/exa\",\"uniqueKey\":\"https://www.ycombinator.com/companies/metaphor\",\"method\":\"GET\",\"noRetry\":false,\"retryCount\":0,\"errorMessages\":[],\"headers\":{},\"userData\":{\"__crawlee\":{\"state\":4}},\"handledAt\":\"2024-04-03T08:28:11.813Z\"}",
 	"method": "GET",
 	"orderNo": null,
 	"retryCount": 0,
