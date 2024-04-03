@@ -270,45 +270,49 @@ function processDataDump() {
                     extractionPath = path.join(tmpDir, 'extracted');
                     // Step 1: Download the file
                     console.log('Downloading the file...');
-                    // await downloadFile('https://fiber-challenges.s3.amazonaws.com/dump.tar.gz', archivePath);
+                    return [4 /*yield*/, downloadFile('https://fiber-challenges.s3.amazonaws.com/dump.tar.gz', archivePath)];
+                case 1:
+                    _a.sent();
                     console.log('Download completed.');
                     // Step 2: Extract the archive
                     console.log('Extracting the archive...');
-                    // await extractArchive(archivePath, extractionPath);
+                    return [4 /*yield*/, extractArchive(archivePath, extractionPath)];
+                case 2:
+                    _a.sent();
                     console.log('Extraction completed.');
                     // Step 3: Initialize the database
                     console.log('Initializing the database...');
                     return [4 /*yield*/, initializeDatabase()];
-                case 1:
+                case 3:
                     db = _a.sent();
                     console.log('Database initialized.');
                     //  Clear tables if at all any data exists in them
                     console.log('Clearing tables...');
                     return [4 /*yield*/, db('customers').truncate()];
-                case 2:
+                case 4:
                     _a.sent();
                     return [4 /*yield*/, db('organizations').truncate()];
-                case 3:
+                case 5:
                     _a.sent();
                     console.log('Tables cleared.');
                     // Step 4: Parse and insert data into the database
                     console.log('Parsing and inserting data into the database...');
                     return [4 /*yield*/, parseCSV(path.join(extractionPath, 'dump', 'customers.csv'))];
-                case 4:
+                case 6:
                     customers = _a.sent();
                     return [4 /*yield*/, parseCSV(path.join(extractionPath, 'dump', 'organizations.csv'))];
-                case 5:
+                case 7:
                     organizations = _a.sent();
                     return [4 /*yield*/, insertDataToDatabase(db, 'customers', customers)];
-                case 6:
+                case 8:
                     _a.sent();
                     return [4 /*yield*/, insertDataToDatabase(db, 'organizations', organizations)];
-                case 7:
+                case 9:
                     _a.sent();
                     console.log('Data insertion completed.');
                     // Close the database connection
                     return [4 /*yield*/, db.destroy()];
-                case 8:
+                case 10:
                     // Close the database connection
                     _a.sent();
                     console.log('Process completed successfully.');

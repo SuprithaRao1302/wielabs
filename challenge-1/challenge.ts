@@ -218,12 +218,12 @@ export async function processDataDump(): Promise<void> {
     const extractionPath = path.join(tmpDir, 'extracted');
     // Step 1: Download the file
     console.log('Downloading the file...');
-    // await downloadFile('https://fiber-challenges.s3.amazonaws.com/dump.tar.gz', archivePath);
+    await downloadFile('https://fiber-challenges.s3.amazonaws.com/dump.tar.gz', archivePath);
     console.log('Download completed.');
 
     // Step 2: Extract the archive
     console.log('Extracting the archive...');
-    // await extractArchive(archivePath, extractionPath);
+    await extractArchive(archivePath, extractionPath);
     console.log('Extraction completed.');
 
     // Step 3: Initialize the database

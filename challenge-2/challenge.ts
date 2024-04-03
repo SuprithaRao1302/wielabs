@@ -52,6 +52,7 @@ interface Founder {
 }
 
 interface LaunchPost {
+  linkToPost: string;
   title: string;
   tagline: string;
   author: string;
@@ -96,7 +97,7 @@ export async function processCompanyList(): Promise<void> {
   );
   console.log(
     "Scraping completed successfully!",
-    
+
   );
 }
 
@@ -187,13 +188,13 @@ async function scrapeCompanyInfo(name: string, url: string): Promise<Company> {
         $("a.inline-block.w-5.h-5.bg-contain.bg-image-linkedin").attr("href") ??
         "";
       company.twitter =
-        $("a.inline-block w-5 h-5 bg-contain bg-image-twitter").attr("href") ??
+        $("a.inline-block.w-5.h-5.bg-contain.bg-image-twitter").attr("href") ??
         "";
       company.github =
-        $("a.inline-block w-5 h-5 bg-contain bg-image-github").attr("href") ??
+        $("a.inline-block.w-5.h-5.bg-contain.bg-image-github").attr("href") ??
         "";
       company.facebook =
-        $("a.inline-block w-5 h-5 bg-contain bg-image-facebook").attr("href") ??
+        $("a.inline-block.w-5.h-5.bg-contain.bg-image-facebook").attr("href") ??
         "";
       company.website = $('a[href^="http"]').attr("href") ?? "";
       company.description = $("p.whitespace-pre-line").text().trim();
@@ -286,7 +287,7 @@ async function scrapeCompanyInfo(name: string, url: string): Promise<Company> {
       $("#news div.ycdc-with-link-color").each((index, element) => {
         const link = $(element).find("a").attr("href") ?? "";
         const title = $(element).find("a").text().trim();
-        const date = $(element).find("time").text().trim();
+        const date = $(element).find("div.mb-4.text-sm").text().trim();
         company.newsPosts.push({ title, link, date });
       });
     },
@@ -312,9 +313,8 @@ async function scrapeLaunchInfo(
      */
     const response = await axios.get("https://www.ycombinator.com/launches");
     const $ = cheerio.load(response.data);
-    const launchPage = await axios.get(
-      `https://www.ycombinator.com${anchorTagUrl}`
-    );
+    const urlOfLaunchPage = `https://www.ycombinator.com${anchorTagUrl}`
+    const launchPage = await axios.get(urlOfLaunchPage);
     const $launch = cheerio.load(launchPage.data);
     const hashtags: string[] = [];
     const title = $launch("div.row.space-between.align-start.width-100 h1")
@@ -332,6 +332,7 @@ async function scrapeLaunchInfo(
     });
     const url = $launch("a.post-url").attr("href") ?? "";
     return {
+      linkToPost:urlOfLaunchPage,
       title,
       author: authorName,
       tagline,
