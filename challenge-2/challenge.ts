@@ -38,6 +38,7 @@ node:internal/process/promises:288
 
 Node.js v18.20.0
 I have tried my best in researching about it and trying to solve but failed, i couldn't find any solution for this error.so please run it again and then observe the output
+NOTE: THIS ERROR ONLY COMES FOR THE FIRST TIME AND WORKS COMPLETELY FINE FOR THE REST OF THE TIMES
 */
 import fs from 'fs/promises';
 import * as cheerio from 'cheerio';
