@@ -83,7 +83,6 @@ export async function processCompanyList(): Promise<void> {
   console.log("Scraping company information...");
   // Initialize an array to store scraped company information
   const scrapedCompanies: Company[] = [];
-  let a = [];
   // Iterate over each company and scrape its information
   for (const { name, url } of companyList) {
     const companyInfo = await scrapeCompanyInfo(name, url);
@@ -97,7 +96,6 @@ export async function processCompanyList(): Promise<void> {
   );
   console.log(
     "Scraping completed successfully!",
-
   );
 }
 
@@ -332,7 +330,7 @@ async function scrapeLaunchInfo(
     });
     const url = $launch("a.post-url").attr("href") ?? "";
     return {
-      linkToPost:urlOfLaunchPage,
+      linkToPost: urlOfLaunchPage,
       title,
       author: authorName,
       tagline,

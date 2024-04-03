@@ -132,14 +132,8 @@ async function parseCSV<T>(filePath: string): Promise<T[]> {
             .pipe(csv.parse({ headers: true }))
             .on('error', reject)
             .on('data', row => {
-                const index = Number(row.Index);
-                if (indices.has(index)) {
-                    console.error(`Duplicate index found: ${index}`);
-                } else {
-                    indices.add(index);
-                    row.Index = index;
-                    data.push(row);
-                }
+                row.Index = Number(row.Index);
+                data.push(row);
             })
             .on('end', () => resolve(data));
     });
@@ -198,9 +192,13 @@ async function initializeDatabase(): Promise<Knex<any, unknown[]>> {
  */
 async function insertDataToDatabase<T>(db: Knex<any, unknown[]>, tableName: string, data: T[]): Promise<void> {
     const batchSize = 100;
+    const totalBatches = Math.ceil(data.length / batchSize);
+
     for (let i = 0; i < data.length; i += batchSize) {
         try {
             await db(tableName).insert(data.slice(i, i + batchSize));
+            const currentBatch = Math.floor(i / batchSize) + 1;
+            console.log(`Inserted batch ${currentBatch} of ${totalBatches} of data into the ${tableName} table.`);
         } catch (error) {
             console.log("🚀 ~ error:", error)
         }
@@ -238,11 +236,13 @@ export async function processDataDump(): Promise<void> {
     console.log('Tables cleared.');
 
     // Step 4: Parse and insert data into the database
-    console.log('Parsing and inserting data into the database...');
+    console.log('Parsing the extracted file...');
     const customers = await parseCSV<Customer>(path.join(extractionPath, 'dump', 'customers.csv'));
     const organizations = await parseCSV<Organization>(path.join(extractionPath, 'dump', 'organizations.csv'));
-
+    console.log('Data parsed.');
+    console.log('Inserting customer data into the database...')
     await insertDataToDatabase(db, 'customers', customers);
+    console.log('Inserting organization data into the database...')
     await insertDataToDatabase(db, 'organizations', organizations);
 
     console.log('Data insertion completed.');
@@ -253,8 +253,3 @@ export async function processDataDump(): Promise<void> {
     console.log('Process completed successfully.');
 }
 
-// Call processDataDump function to execute the pipeline
-processDataDump().catch(error => {
-    console.error('An error occurred:', error);
-    process.exit(1);
-});

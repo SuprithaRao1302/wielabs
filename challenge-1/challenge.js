@@ -148,15 +148,8 @@ function parseCSV(filePath) {
                         .pipe(csv.parse({ headers: true }))
                         .on('error', reject)
                         .on('data', function (row) {
-                        var index = Number(row.Index);
-                        if (indices.has(index)) {
-                            console.error("Duplicate index found: ".concat(index));
-                        }
-                        else {
-                            indices.add(index);
-                            row.Index = index;
-                            data.push(row);
-                        }
+                        row.Index = Number(row.Index);
+                        data.push(row);
                     })
                         .on('end', function () { return resolve(data); });
                 })];
@@ -226,11 +219,12 @@ function initializeDatabase() {
  */
 function insertDataToDatabase(db, tableName, data) {
     return __awaiter(this, void 0, void 0, function () {
-        var batchSize, i, error_1;
+        var batchSize, totalBatches, i, currentBatch, error_1;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
                     batchSize = 100;
+                    totalBatches = Math.ceil(data.length / batchSize);
                     i = 0;
                     _a.label = 1;
                 case 1:
@@ -241,6 +235,8 @@ function insertDataToDatabase(db, tableName, data) {
                     return [4 /*yield*/, db(tableName).insert(data.slice(i, i + batchSize))];
                 case 3:
                     _a.sent();
+                    currentBatch = Math.floor(i / batchSize) + 1;
+                    console.log("Inserted batch ".concat(currentBatch, " of ").concat(totalBatches, " of data into the ").concat(tableName, " table."));
                     return [3 /*break*/, 5];
                 case 4:
                     error_1 = _a.sent();
@@ -296,16 +292,19 @@ function processDataDump() {
                     _a.sent();
                     console.log('Tables cleared.');
                     // Step 4: Parse and insert data into the database
-                    console.log('Parsing and inserting data into the database...');
+                    console.log('Parsing the extracted file...');
                     return [4 /*yield*/, parseCSV(path.join(extractionPath, 'dump', 'customers.csv'))];
                 case 6:
                     customers = _a.sent();
                     return [4 /*yield*/, parseCSV(path.join(extractionPath, 'dump', 'organizations.csv'))];
                 case 7:
                     organizations = _a.sent();
+                    console.log('Data parsed.');
+                    console.log('Inserting customer data into the database...');
                     return [4 /*yield*/, insertDataToDatabase(db, 'customers', customers)];
                 case 8:
                     _a.sent();
+                    console.log('Inserting organization data into the database...');
                     return [4 /*yield*/, insertDataToDatabase(db, 'organizations', organizations)];
                 case 9:
                     _a.sent();
@@ -322,8 +321,3 @@ function processDataDump() {
     });
 }
 exports.processDataDump = processDataDump;
-// Call processDataDump function to execute the pipeline
-processDataDump().catch(function (error) {
-    console.error('An error occurred:', error);
-    process.exit(1);
-});
